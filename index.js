@@ -40,20 +40,39 @@ async function run(){
         /////////////////GET SINGLE ITEM////////////
 
         ////////////////UPDATE ITEM /////////////////
+        // app.put('/book/:id',async(req,res)=>{
+        //     const id = req.params.id;
+        //     // console.log(req.params.id);
+        //     const updatedUser = req.body;
+        //     const filter = {_id: ObjectId(id)};
+        //     const options = {upsert:true};
+        //     const updatedDoc = {
+        //         $set:{
+        //                 quantity: updatedUser.updatedQuantity
+                              
+        //         }
+        //     }
+        //     const result = await bookCollection.updateOne(filter,updatedDoc,options);
+        //     res.send(result);
+        // })
+
+        ///RESTOCK
         app.put('/book/:id',async(req,res)=>{
             const id = req.params.id;
-            console.log(req.body);
-            const updatedUser = req.body;
+            console.log(req.params.id);
+            const updatedUser2 = req.body;
+            console.log(updatedUser2);
             const filter = {_id: ObjectId(id)};
             const options = {upsert:true};
             const updatedDoc = {
                 $set:{
-                    quantity: updatedUser.updatedQuantity
+                    quantity: updatedUser2.quantity
                 }
             }
             const result = await bookCollection.updateOne(filter,updatedDoc,options);
             res.send(result);
         })
+
         ////////////////UPDATE ITEM /////////////////
     }
     finally{
