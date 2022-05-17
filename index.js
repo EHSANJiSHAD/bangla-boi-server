@@ -38,6 +38,23 @@ async function run(){
             res.send(result);
         })
         /////////////////GET SINGLE ITEM////////////
+
+        ////////////////UPDATE ITEM /////////////////
+        app.put('/book/:id',async(req,res)=>{
+            const id = req.params.id;
+            console.log(req.body);
+            const updatedUser = req.body;
+            const filter = {_id: ObjectId(id)};
+            const options = {upsert:true};
+            const updatedDoc = {
+                $set:{
+                    quantity: updatedUser.updatedQuantity
+                }
+            }
+            const result = await bookCollection.updateOne(filter,updatedDoc,options);
+            res.send(result);
+        })
+        ////////////////UPDATE ITEM /////////////////
     }
     finally{
 
