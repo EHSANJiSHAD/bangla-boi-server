@@ -76,13 +76,24 @@ async function run(){
         ////////////////UPDATE ITEM /////////////////
 
 
-         //DELETE AN ITEM
+        ///////////////DELETE AN ITEM////////////////
          app.delete('/book/:id',async(req,res)=>{
             const id = req.params.id;
             const query = {_id: ObjectId(id)};
             const result = await bookCollection.deleteOne(query);
             res.send(result);
         })
+        ///////////////DELETE AN ITEM////////////////
+
+        ////////////ADD ITEM/////////////////////////
+        app.post('/book',async(req,res)=>{
+            const newItem = req.body;
+            console.log(newItem);
+            const result = await bookCollection.insertOne(newItem);
+            res.send(result);
+        })
+        ////////////ADD ITEM/////////////////////////
+
     }
     finally{
 
