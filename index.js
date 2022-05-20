@@ -15,14 +15,14 @@ app.use(express.json());
 const uri = `mongodb+srv://${process.env.DB_USER1}:${process.env.DB_PASSWORD1}@cluster0.gbtik.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
-async function run(){
-    try{
+async function run() {
+    try {
         await client.connect();
         const bookCollection = client.db('banglaBoi').collection('book');
 
 
         ////////////////GET ALL ITEMS///////////////////
-        app.get('/book',async(req,res)=>{
+        app.get('/book', async (req, res) => {
             const query = {};
             const cursor = bookCollection.find(query);
             const result = await cursor.toArray();
@@ -31,45 +31,30 @@ async function run(){
         ////////////////GET ALL ITEMS///////////////////
 
         /////////////////GET SINGLE ITEM////////////
-        app.get('/book/:id',async(req,res)=>{
+        app.get('/book/:id', async (req, res) => {
             const id = req.params.id;
-            const query = {_id: ObjectId(id)};
+            const query = { _id: ObjectId(id) };
             const result = await bookCollection.findOne(query);
             res.send(result);
         })
         /////////////////GET SINGLE ITEM////////////
 
         ////////////////UPDATE ITEM /////////////////
-        // app.put('/book/:id',async(req,res)=>{
-        //     const id = req.params.id;
-        //     // console.log(req.params.id);
-        //     const updatedUser = req.body;
-        //     const filter = {_id: ObjectId(id)};
-        //     const options = {upsert:true};
-        //     const updatedDoc = {
-        //         $set:{
-        //                 quantity: updatedUser.updatedQuantity
-                              
-        //         }
-        //     }
-        //     const result = await bookCollection.updateOne(filter,updatedDoc,options);
-        //     res.send(result);
-        // })
 
-        ///RESTOCK
-        app.put('/book/:id',async(req,res)=>{
+
+        app.put('/book/:id', async (req, res) => {
             const id = req.params.id;
-            console.log(req.params.id);
+            // console.log(req.params.id);
             const updatedUser2 = req.body;
-            console.log(updatedUser2);
-            const filter = {_id: ObjectId(id)};
-            const options = {upsert:true};
+            // console.log(updatedUser2);
+            const filter = { _id: ObjectId(id) };
+            const options = { upsert: true };
             const updatedDoc = {
-                $set:{
+                $set: {
                     quantity: updatedUser2.quantity
                 }
             }
-            const result = await bookCollection.updateOne(filter,updatedDoc,options);
+            const result = await bookCollection.updateOne(filter, updatedDoc, options);
             res.send(result);
         })
 
@@ -77,25 +62,25 @@ async function run(){
 
 
         ///////////////DELETE AN ITEM////////////////
-         app.delete('/book/:id',async(req,res)=>{
+        app.delete('/book/:id', async (req, res) => {
             const id = req.params.id;
-            const query = {_id: ObjectId(id)};
+            const query = { _id: ObjectId(id) };
             const result = await bookCollection.deleteOne(query);
             res.send(result);
         })
         ///////////////DELETE AN ITEM////////////////
 
         ////////////ADD ITEM/////////////////////////
-        app.post('/book',async(req,res)=>{
+        app.post('/book', async (req, res) => {
             const newItem = req.body;
-            console.log(newItem);
+            // console.log(newItem);
             const result = await bookCollection.insertOne(newItem);
             res.send(result);
         })
         ////////////ADD ITEM/////////////////////////
 
     }
-    finally{
+    finally {
 
     }
 }
@@ -103,10 +88,10 @@ async function run(){
 run().catch(console.dir);
 //////////////////MONGODB CONNECT/////////////////
 
-app.get('/',(req,res)=>{
+app.get('/', (req, res) => {
     res.send('RUNNING BANGLA-BOI SERVER');
 })
 
-app.listen(port,()=>{
-    console.log('RUNNING ON PORT' , port)
+app.listen(port, () => {
+    console.log('RUNNING ON PORT', port)
 })
